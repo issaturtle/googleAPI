@@ -33,7 +33,6 @@ def getAuthToken(*scopes):
     try:
         # Call the Gmail API
         buildGmailService = build('gmail', 'v1', credentials=credentials)
-    
         return buildGmailService
     except HttpError as error:
         print(f'An error occurred: {error}')
