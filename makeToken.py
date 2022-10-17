@@ -40,9 +40,8 @@ def getAuthToken():
         mimeMsg['subject'] = "for cmpe"
         mimeMsg['to'] = "enegry135@gmail.com"
         mimeMsg.attach(MIMEText(msg,'plain'))
-        #turn message into raw string
-        msgString = base64.urlsafe_b64encode(mimeMsg.as_bytes()).decode()
-        buildGmailService.users().messages().send(userId = 'me', body = {'raw':msgString}).execute()
+        #turn message into raw string, https://stackoverflow.com/questions/54526973/base64-encoding-not-taking-mime-message
+        buildGmailService.users().messages().send(userId = 'me', body = {'raw':base64.urlsafe_b64encode(mimeMsg.as_bytes()).decode()}).execute()
 
     except HttpError as error:
         print(f'An error occurred: {error}')
