@@ -16,26 +16,26 @@ def getAuthToken():
     credentials = None
     #creates token.json file for verification
     #if file doesn't exist, ask user to verify
-    if os.path.exists('token.json'):
-        credentials = Credentials.from_authorized_user_file('token.json', SCOPES)
+    if os.path.exists('userToken.json'):
+        credentials = Credentials.from_authorized_user_file('userToken.json', SCOPES)
   
     if not credentials or not credentials.valid:
         if credentials and credentials.expired and credentials.refresh_token:
             credentials.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            credentials = flow.run_local_server(port=0)
+            flowCred = InstalledAppFlow.from_client_secrets_file(
+                'client.json', SCOPES)
+            credentials = flowCred.run_local_server(port=0)
         
         #once verified, user can skip verifying process
-        with open('token.json', 'w') as token:
-            token.write(credentials.to_json())
+        with open('userToken.json', 'w') as userToken:
+            userToken.write(credentials.to_json())
     
     try:
         # Call the Gmail API
         buildGmailService = build('gmail', 'v1', credentials=credentials)
         # return buildGmailService
-        msg = "this is a demo"
+        msg = "this is a demonstration"
         mimeMsg = MIMEMultipart()
         mimeMsg['subject'] = "for cmpe"
         mimeMsg['to'] = "enegry135@gmail.com"
